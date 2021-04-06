@@ -7,7 +7,7 @@ const router = express.Router();
 
 
 // Add and Update in the index.
-router.post("/api/algolia", (req, res) => {
+router.post("/algolia", (req, res) => {
   /* .saveObject(obj)
    * If the objectID exists, the record will be replaced
    * If the objectID is specified but does not exist, the record is created
@@ -32,7 +32,7 @@ router.post("/api/algolia", (req, res) => {
 });
 
 // Delete Record from the index.
-router.delete("/api/algolia/:pid", (req, res) => {
+router.delete("/algolia/:pid", (req, res) => {
   const { pid } = req.params;
 
   index
@@ -42,7 +42,7 @@ router.delete("/api/algolia/:pid", (req, res) => {
 });
 
 // Reset Index. (Clear all items in the index)
-router.delete("/api/aloglia/reset", (req, res) => {
+router.delete("/aloglia/reset", (req, res) => {
   index
     .clearObjects()
     .then(() =>
