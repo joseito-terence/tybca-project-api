@@ -1,6 +1,5 @@
 const express = require('express');
 const admin = require('firebase-admin');
-const db = admin.firestore();
 
 var serviceAccount = require('../serviceAccountKey.json');
 const router = express.Router();
@@ -8,6 +7,7 @@ const router = express.Router();
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
+const db = admin.firestore();
 
 // disable or enable user in firebase auth
 router.post('/user/:option', (req, res) => {
