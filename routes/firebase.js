@@ -9,7 +9,7 @@ admin.initializeApp({
 const db = admin.firestore();
 
 // disable or enable user in firebase auth
-router.post('/user/:option', (req, res) => {
+router.put('/user/:option', (req, res) => {
   const { option } = req.params;
   const { uid, userType } = req.body;
 
