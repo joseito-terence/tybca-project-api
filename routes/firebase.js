@@ -46,8 +46,8 @@ router.delete('/user/:uid', (req, res) => {
   }
 
   admin.auth()
-    .deleteUser(uid)
-    .then(() => db.doc(`${userType}/${uid}`).delete())
+    .deleteUser(uid)                                        // delete user
+    .then(() => db.doc(`${userType}/${uid}`).delete())      // delete user's records from db.
     .then(() => res.send('Successfully deleted user.'))
     .catch((err) => res.status(400).send(err));
 });
