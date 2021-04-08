@@ -11,15 +11,18 @@ const db = admin.firestore();
 // disable or enable user in firebase auth
 router.post('/user/:option', (req, res) => {
   const { option } = req.params;
-  const { uid } = req.body;
+  const { uid, userType } = req.body;
 
-  if(option || uid) {
+  if(option && uid && userType) {
     if(option === 'disable' || option === 'enable') {
       const disabled = option === 'disable' ? true : false;
   
       admin.auth()
-        .updateUser(uid, { disabled })
-        .then(userRecord => res.send(userRecord))
+        .updateUser(uid, { disabled })                // disable user
+        .then(userRecord => {
+          return db.doc(`${userType}/${uid}`).set({ disabled }, { merge: true });  // make a record in db also.
+        })
+        .then(() => res.send(`User has been ${option}d.`))
         .catch((err) => res.status(400).send(err));
     }else{
       return res.status(400).send('Option can be enable or disable.');
