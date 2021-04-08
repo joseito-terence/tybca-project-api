@@ -52,5 +52,13 @@ router.delete('/user/:uid', (req, res) => {
     .catch((err) => res.status(400).send(err));
 });
 
+router.put('/order/cancel/:orderId', (req, res) => {
+  const { orderId } = req.params;
+
+  db.doc(`orders/${orderId}`).set({ status: 'canceled' }, { merge: true })
+    .then(() => res.send('Order has been canceled.'))
+    .catch((err) => res.status(400).send(err));
+})
+
 
 module.exports = router;
