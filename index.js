@@ -18,6 +18,8 @@ app.get('/', (req, res) => {
   res.send('tybca-project-api running.');
 })
 
+console.log(process.env.GOOGLE_APPLICATION_CREDENTIALS);
+
 // PORT (Environment Variable)
 const port = process.env.PORT || 3002;
 app.listen(port, () => console.log(`Listening on port ${port}.....`));
