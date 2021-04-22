@@ -15,24 +15,23 @@ router.put('/user/:option', (req, res) => {
   const { uid, userType } = req.body;
 
   console.log(option, uid, userType);
-  res.end();
+  // res.end();
 
-
-  // if(option && uid && userType) {
-  //   if(option === 'disable' || option === 'enable') {
-  //     const disabled = option === 'disable' ? true : false;
-  
-  //     admin.auth()
-  //       .updateUser(uid, { disabled })                // disable user
-  //       .then(userRecord => {
-  //         return db.doc(`${userType}/${uid}`).set({ disabled }, { merge: true });  // make a record in db also.
-  //       })
-  //       .then(() => res.send(`User has been ${option}d.`))
-  //       .catch((err) => res.status(400).send(err));
-  //   }else{
-  //     return res.status(400).send('Option can be enable or disable.');
-  //   }
-  // }
+  if(option && uid && userType) {
+    if(option === 'disable' || option === 'enable') {
+      const disabled = option === 'disable' ? true : false;
+      console.log(disabled);
+      admin.auth()
+        .updateUser(uid, { disabled })                // disable user
+        .then(userRecord => {
+          return db.doc(`${userType}/${uid}`).set({ disabled }, { merge: true });  // make a record in db also.
+        })
+        .then(() => res.send(`User has been ${option}d.`))
+        .catch((err) => res.status(400).send(err));
+    }else{
+      return res.status(400).send('Option can either be enable or disable.');
+    }
+  }
 });
 
 // delete user completely with db records.
