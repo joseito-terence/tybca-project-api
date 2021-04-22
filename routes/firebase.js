@@ -2,9 +2,10 @@ const express = require('express');
 const admin = require('firebase-admin');
 
 const router = express.Router();
+const serviceAccount = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS); 
 
 admin.initializeApp({
-  credential: admin.credential.applicationDefault(),
+  credential: admin.credential.cert(serviceAccount),
 });
 
 const db = admin.firestore();
