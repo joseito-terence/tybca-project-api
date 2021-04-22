@@ -14,9 +14,6 @@ router.put('/user/:option', (req, res) => {
   const { option } = req.params;
   const { uid, userType } = req.body;
 
-  console.log(option, uid, userType);
-  // res.end();
-
   if(option && uid && userType) {
     if(option === 'disable' || option === 'enable') {
       const disabled = option === 'disable' ? true : false;
