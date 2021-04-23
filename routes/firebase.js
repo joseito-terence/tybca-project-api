@@ -2,7 +2,9 @@ const express = require('express');
 const admin = require('firebase-admin');
 
 const router = express.Router();
+
 const serviceAccount = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS); 
+// const serviceAccount = require('../serviceAccountKey.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -18,7 +20,7 @@ router.put('/user/:option', (req, res) => {
   if(option && uid && userType) {
     if(option === 'disable' || option === 'enable') {
       const disabled = option === 'disable' ? true : false;
-      console.log(disabled);
+      // console.log(disabled);
       admin.auth()
         .updateUser(uid, { disabled })                // disable user
         .then(userRecord => {
@@ -49,7 +51,6 @@ router.delete('/user/:uid', async (req, res) => {
   }
 
   console.log(userType,'=>' ,docId, uid);
-  // res.end();
 
   admin.auth()
     .deleteUser(uid)                                        // delete user
@@ -65,6 +66,7 @@ router.delete('/user/:uid', async (req, res) => {
     });
 });
 
+// CANCEL ORDER
 router.put('/order/cancel/:orderId', (req, res) => {
   const { orderId } = req.params;
 
