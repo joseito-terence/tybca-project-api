@@ -13,18 +13,25 @@ admin.initializeApp({
 const db = admin.firestore();
 
 // disable or enable user in firebase auth
-router.put('/user/:option', (req, res) => {
+router.put('/user/:option', async (req, res) => {
   const { option } = req.params;
-  const { uid, userType } = req.body;
+  let { uid, userType } = req.body;
 
   if(option && uid && userType) {
     if(option === 'disable' || option === 'enable') {
       const disabled = option === 'disable' ? true : false;
-      // console.log(disabled);
+      let docId = uid;    
+      console.log(option, uid, userType, disabled);
+
+      if(userType === 'customers') {
+        const userRecord =  await admin.auth().getUserByEmail(docId);    
+        uid = userRecord.uid;
+      }
+
       admin.auth()
         .updateUser(uid, { disabled })                // disable user
-        .then(userRecord => {
-          return db.doc(`${userType}/${uid}`).set({ disabled }, { merge: true });  // make a record in db also.
+        .then(() => {
+          return db.doc(`${userType}/${docId}`).set({ disabled }, { merge: true });  // make a record in db also.
         })
         .then(() => res.send(`User has been ${option}d.`))
         .catch((err) => res.status(400).send(err));
@@ -37,15 +44,14 @@ router.put('/user/:option', (req, res) => {
 // delete user completely with db records.
 router.delete('/user/:uid', async (req, res) => {
   let { uid } = req.params;
-  const userType = (uid.indexOf('@') !== -1) ? 'customers' : 'sellers';
-  let docId = uid;    // document id for seller is same as uid.
+  let userType = (uid.indexOf('@') !== -1) ? 'customers' : 'sellers';
+  let docId = uid;    
 
   if(!uid){
     return res.status(400).send({ code: 'uid-empty', message: 'uid is required.' });
   }
 
   if(userType === 'customers') {
-    docId = email;    // document ID for customer the email
     const userRecord =  await admin.auth().getUserByEmail(docId);    
     uid = userRecord.uid;
   }
