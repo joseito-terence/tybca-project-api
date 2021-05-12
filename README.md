@@ -10,7 +10,7 @@ This api is a part of our final year project.
 ## Endpoints
 ### Indexing Endpoints (Algolia)
 
-* `POST /algolia`\
+* ### `POST /algolia`
   Add or Update in the index.
   * If the objectID exists, the record will be replaced
   * If the objectID is specified but does not exist, the record is created
@@ -28,33 +28,33 @@ This api is a part of our final year project.
   | category    | category of the product
   | images      | image url of the product
   <br>
-* `DELETE /algolia/:pid`\
+* ### `DELETE /algolia/:pid`
   Delete Record from the index.
 
   Request Params\
   pid, the product id.
 
-* `DELETE /aloglia/reset`\
+* ### `DELETE /aloglia/reset`
   Reset Index. (Clear all items in the index)\
   All products are deleted from index.\
   This can't be undone. : )
 
 ### Firebase Operations Endpoints
 
-* `PUT /user/:option`\
+* ### `PUT /user/:option`
   Disable or Enable user in firebase auth.
   Performs the operation and set the disabled&lt;bool&gt; property in the user's db record.
 
   Request Params <br> 
   option = 'enable' or 'disable'.
 
-* `DELETE /user/:uid`\
+* ### `DELETE /user/:uid`
   Delete the user.
   - First deletes from Firebase Auth
   - Then from the Firestore, the db.
   - User can be seller or customer.
 
-* `PUT /order/cancel/:orderId`
+* ### `PUT /order/cancel/:orderId`
   Cancel order
   - Change the order status to 'canceled'.
   - ex:- { status: 'canceled' }
